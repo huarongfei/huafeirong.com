@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <title>.NET MAUI 跨平台实战 — 一套代码覆盖 Windows/Android/iOS/macOS | 花飞荣工作室</title>
+  <meta name="description" content="ContestScoring Mobile 的 MAUI 多平台构建经验，涵盖四大平台适配、Handler 定制、XAML 跨平台陷阱与性能优化。">
+  <meta property="og:title" content=".NET MAUI 跨平台实战 — 一套代码覆盖 Windows/Android/iOS/macOS">
+  <meta property="og:description" content="ContestScoring Mobile 的 MAUI 四平台开发实录，从零到跨平台部署的全过程。">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="花飞荣工作室">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com/blog/dotnet-maui-cross-platform.html">
+  <link rel="canonical" href="https://huafeirong.com/blog/dotnet-maui-cross-platform.html">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": ".NET MAUI 跨平台实战 — 一套代码覆盖 Windows/Android/iOS/macOS",
+    "description": "ContestScoring Mobile 的 MAUI 多平台构建经验，涵盖四大平台适配、Handler 定制、XAML 跨平台陷阱与性能优化。",
+    "datePublished": "2026-06-01",
+    "author": { "@type": "Organization", "name": "花飞荣工作室" },
+    "publisher": { "@type": "Organization", "name": "花飞荣工作室" }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/blog.css">
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">花飞荣</a>
+      <div class="nav-links">
+        <a href="../index.html#projects">项目</a>
+        <a href="index.html" class="active">博客</a>
+        <a href="../contact.html">联系我们</a>
+        <a href="../index.html#about">关于</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="菜单">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <header class="article-header">
+      <div class="article-meta">
+        <span class="article-date">2026-06-01</span>
+        <span class="article-tag">.NET</span>
+        <span class="article-tag">MAUI</span>
+        <span class="article-tag">移动开发</span>
+      </div>
+      <h1>.NET MAUI 跨平台实战 — 一套代码覆盖 Windows/Android/iOS/macOS</h1>
+      <p class="article-subtitle">ContestScoring Mobile 的多平台开发实录：从项目搭建、Handler 定制，到四大平台适配与性能优化的完整经验。</p>
+    </header>
+
+    <div class="article-body">
+
+      <h2>为什么选 MAUI</h2>
+
+      <p>ContestScoring 项目的桌面端已经基于 WinUI 3 (C# .NET 8) 构建，移动端自然希望复用现有 C# 业务逻辑和模型定义。摆在面前的选择有三个：</p>
+
+      <div class="highlight-box">
+        <table>
+          <thead>
+            <tr><th>方案</th><th>语言</th><th>平台覆盖</th><th>代码复用</th><th>原生体验</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Flutter</td><td>Dart</td><td>全平台</td><td>0%（需全重写）</td><td>Skia 自绘</td></tr>
+            <tr><td>React Native</td><td>TS/JS</td><td>iOS/Android</td><td>0%（需全重写）</td><td>原生桥接</td></tr>
+            <tr><td><strong>.NET MAUI</strong></td><td>C#</td><td>全平台 + Windows</td><td>80%+</td><td>原生控件</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>MAUI 允许我们直接引用 <code>ContestScoring.Shared</code> 项目，所有模型（Competition、Judge、Score）、协议（IScoringHub）和计算逻辑（ScoringAlgorithm）零修改复用。这对于一个小团队来说，是决定性的优势。</p>
+
+      <h2>四大平台渲染管线</h2>
+
+      <p>MAUI 的跨平台魔法在于：<strong>一套 XAML + 一套 C# 逻辑</strong>，底层映射到各平台的原生控件。</p>
+
+      <pre class="code-block"><code>┌─────────────────────────────────────────┐
+│           .NET MAUI App                 │
+│  Pages/          Services/             │
+│  ConnectPage     ConnectionService     │
+│  JudgePage       ScoringService        │
+│  VotePage        ...                   │
+│  (C# + XAML — Write Once)              │
+├──────────┬──────────┬──────────┬───────┤
+│ WinUI 3  │ Android  │ iOS      │ macOS │
+│ (WinApp  │ (Android │ (UIKit)  │ (App  │
+│  SDK)    │  Views)  │          │  Kit) │
+│          │          │          │       │
+│ Windows  │ Samsung  │ iPhone   │ Mac   │
+│ 10/11    │ Pixel    │ iPad     │ Mini  │
+└──────────┴──────────┴──────────┴───────┘</code></pre>
+
+      <p>这意味着：一个 <code>Button</code> 在 Windows 上渲染为 WinUI Button，在 Android 上渲染为 <code>AppCompatButton</code>，在 iOS 上渲染为 <code>UIButton</code>。开发者无需关心底层实现——除非你需要定制。</p>
+
+      <h2>实战：ConnectionService 跨平台适配</h2>
+
+      <p>移动端最核心的功能是 LAN 无线评分。评委连接到裁判长桌面端，建立 SignalR 实时通信。来看看这一功能如何在不同平台上实现：</p>
+
+      <h3>共享代码（95%）</h3>
+
+      <pre class="code-block"><code>// ConnectionService.cs — 所有平台共享
+public class ConnectionService : IConnectionService
+{
+    private HubConnection? _hub;
+
+    public async Task&lt;bool&gt; ConnectAsync(string url, string judgeId)
+    {
+        _hub = new HubConnectionBuilder()
+            .WithUrl($"{url}/scoring", opts =>
+            {
+                // TLS 自签名证书信任（所有平台统一）
+                opts.HttpMessageHandlerFactory = _ => new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+                };
+            })
+            .Build();
+
+        _hub.On&lt;ScoreResult&gt;("OnScoreSubmitted", HandleScoreSubmitted);
+        _hub.On&lt;string, string&gt;("OnJudgeOffline", HandleJudgeOffline);
+
+        await _hub.StartAsync();
+        return true;
+    }
+}</code></pre>
+
+      <p>这段代码在四个平台上<strong>一字不改</strong>就能运行。SignalR 客户端库（Microsoft.AspNetCore.SignalR.Client）自身处理了所有平台差异。</p>
+
+      <h3>平台特化（5%）</h3>
+
+      <p>唯一的平台差异在于 <strong>Wi-Fi 状态检测</strong>和<strong>证书存储</strong>：</p>
+
+      <pre class="code-block"><code>// Platforms/Android/AndroidNetworkHelper.cs
+public class AndroidNetworkHelper : INetworkHelper
+{
+    public bool IsWiFiConnected()
+    {
+        var manager = (ConnectivityManager)
+            Android.App.Application.Context
+                .GetSystemService(Context.ConnectivityService)!;
+        var network = manager.ActiveNetwork;
+        var caps = manager.GetNetworkCapabilities(network);
+        return caps?.HasTransport(TransportType.Wifi) == true;
+    }
+}
+
+// Platforms/iOS/iOSNetworkHelper.cs
+public class iOSNetworkHelper : INetworkHelper
+{
+    public bool IsWiFiConnected()
+    {
+        return Reachability.InternetConnectionStatus() ==
+               NetworkStatus.ReachableViaWiFiNetwork;
+    }
+}</code></pre>
+
+      <p>这些平台特化代码通过依赖注入注册，MAUI 在运行时自动选择正确的实现：</p>
+
+      <pre class="code-block"><code>// MauiProgram.cs
+builder.Services.AddSingleton&lt;INetworkHelper&gt;(sp =>
+{
+#if ANDROID
+    return new AndroidNetworkHelper();
+#elif IOS
+    return new iOSNetworkHelper();
+#elif MACCATALYST
+    return new MacNetworkHelper();
+#else
+    return new WindowsNetworkHelper();
+#endif
+});</code></pre>
+
+      <h2>遇到的坑</h2>
+
+      <h3>坑 1：Android 启动白屏</h3>
+
+      <p>Android 端冷启动时会有 2-3 秒的白屏，这是因为 MAUI 需要初始化 .NET 运行时并加载 MAUI 框架。</p>
+
+      <pre class="code-block"><code>// 解决方案：自定义 Splash Screen
+// Platforms/Android/Resources/values/styles.xml
+&lt;style name="Maui.SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar"&gt;
+    &lt;item name="android:windowBackground"&gt;@drawable/splash_screen&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+
+      <h3>坑 2：iOS 安全区域 (Safe Area)</h3>
+
+      <p>iPhone X 及更新机型的刘海屏需要正确处理安全区域，否则按钮会被刘海遮挡：</p>
+
+      <pre class="code-block"><code>// XAML 中声明安全区域
+&lt;ContentPage xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration
+    .iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="True"&gt;
+    ...
+&lt;/ContentPage&gt;</code></pre>
+
+      <h3>坑 3：TableView 性能</h3>
+
+      <p>选手列表使用 CollectionView，但 Android 上滚动到 100+ 项时出现明显卡顿。排查发现是 MAUI 默认的 <code>DataTemplate</code> 为每一项创建了过深的视觉树。</p>
+
+      <pre class="code-block"><code>// 优化：扁平化视觉树 + 虚拟化
+&lt;CollectionView ItemsLayout="VerticalList"
+                RemainingItemsThreshold="5"
+                RemainingItemsThresholdReached="OnLoadMore"&gt;
+    &lt;CollectionView.ItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;!-- 只用一层 Grid，不用嵌套 StackLayout --&gt;
+            &lt;Grid ColumnDefinitions="Auto,*,Auto"
+                  Padding="12,8" HeightRequest="48"&gt;
+                ...
+            &lt;/Grid&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/CollectionView.ItemTemplate&gt;
+&lt;/CollectionView&gt;</code></pre>
+
+      <h2>构建与部署</h2>
+
+      <div class="highlight-box">
+        <h3>四平台构建命令</h3>
+        <table>
+          <thead>
+            <tr><th>平台</th><th>命令</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Windows</td><td><code>dotnet build -f net10.0-windows10.0.19041</code></td></tr>
+            <tr><td>Android</td><td><code>dotnet build -f net10.0-android</code></td></tr>
+            <tr><td>iOS</td><td><code>dotnet build -f net10.0-ios</code>（需 macOS）</td></tr>
+            <tr><td>macOS</td><td><code>dotnet build -f net10.0-maccatalyst</code>（需 macOS）</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>一条关键经验：<strong>iOS/macOS 构建必须在 macOS 上完成</strong>（需要 Xcode 工具链），而 Android 和 Windows 可以在 Windows 开发机上直接构建。对于小团队，这意味着要么用 Mac 作为 CI 构建机，要么用 GitHub Actions 的 macOS runner。</p>
+
+      <h2>最终效果</h2>
+
+      <p>经过上述适配，ContestScoring Mobile 在四个平台上实现了统一体验：</p>
+
+      <ul>
+        <li><strong>Windows</strong>：评委可在一台 Windows 平板上打开 MAUI 应用，用触摸屏快速打分</li>
+        <li><strong>Android</strong>：支持 Android 8.0+，涵盖 95% 的活跃设备</li>
+        <li><strong>iOS</strong>：支持 iOS 16+，iPhone + iPad 双适配（利用 <code>OnIdiom</code> 自适应布局）</li>
+        <li><strong>macOS</strong>：作为桌面端备选（桌面端主力仍是 WinUI 3 裁判长端）</li>
+      </ul>
+
+      <h2>经验总结</h2>
+
+      <ol>
+        <li><strong>MAUI 适合 .NET 技术栈团队</strong>：代码复用率 80%+，共享业务逻辑和模型层</li>
+        <li><strong>5% 的平台特化不可避免</strong>：网络检测、权限申请、后台任务等必须分平台处理</li>
+        <li><strong>XAML 性能敏感</strong>：避免深嵌套，善用虚拟化 CollectionView，ListView 只用于短列表</li>
+        <li><strong>macOS 构建是硬门槛</strong>：iOS/macOS 部署必须有 Mac 设备（或云 Mac CI）</li>
+        <li><strong>Handler 定制比 Custom Renderer 好</strong>：MAUI Handler 架构更轻量，未来 vs Xamarin 迁移也更简单</li>
+      </ol>
+
+    </div>
+
+    <footer class="article-footer">
+      <p>标签：.NET MAUI | 移动开发 | 跨平台 | ContestScoring</p>
+      <a href="../index.html" class="back-link">← 返回首页</a>
+    </footer>
+  </article>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

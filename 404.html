@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="页面未找到 — 花飞荣工作室。您访问的页面不存在，返回首页或搜索您需要的内容。">
+  <title>404 页面未找到 | 花飞荣工作室</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="404 页面未找到 | 花飞荣工作室">
+  <meta property="og:description" content="您要访问的页面不存在。">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com/404.html">
+  <meta property="og:site_name" content="花飞荣工作室">
+  <link rel="canonical" href="https://huafeirong.com/404.html">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .error-page {
+      min-height: calc(100vh - 70px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .error-code {
+      font-size: clamp(8rem, 15vw, 12rem);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent, #6c63ff), #ff6ec7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+      animation: errorFloat 3s ease-in-out infinite;
+    }
+    @keyframes errorFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .error-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary, #fff);
+      margin-bottom: 0.75rem;
+    }
+    .error-desc {
+      font-size: 1rem;
+      color: var(--text-secondary, #a0a0b0);
+      max-width: 480px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .btn-home {
+      padding: 0.75rem 2rem;
+      background: var(--accent, #6c63ff);
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+    }
+    .btn-search {
+      padding: 0.75rem 2rem;
+      background: transparent;
+      color: var(--accent, #6c63ff);
+      border: 2px solid var(--accent, #6c63ff);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-search:hover {
+      background: rgba(108, 99, 255, 0.1);
+    }
+    .search-mini {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 400px;
+      width: 100%;
+    }
+    .search-mini input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border-color, #2a2a3a);
+      border-radius: 8px;
+      background: var(--bg-card, #1a1a2e);
+      color: var(--text-primary, #fff);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-mini input:focus {
+      border-color: var(--accent, #6c63ff);
+    }
+    .search-mini button {
+      padding: 0.75rem 1.5rem;
+      background: var(--accent, #6c63ff);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .search-mini button:hover {
+      background: #5a52d5;
+    }
+
+    /* Light theme overrides */
+    [data-theme="light"] .error-title { color: #1a1a2e; }
+    [data-theme="light"] .error-desc { color: #555; }
+    [data-theme="light"] .search-mini input {
+      background: #fff;
+      border-color: #d0d0e0;
+      color: #1a1a2e;
+    }
+
+    @media (max-width: 600px) {
+      .error-actions { flex-direction: column; align-items: center; }
+      .search-mini { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav" class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">花 飞荣</a>
+      <div class="nav-links" id="navLinks">
+        <a href="ecs.html">ECS</a>
+        <a href="studio.html">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="blog/">博客</a>
+        <a href="status.html">状态</a>
+        <a href="contact.html">联系我们</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <article class="error-page">
+    <div class="error-code">404</div>
+    <h1 class="error-title">页面未找到</h1>
+    <p class="error-desc">
+      您访问的页面不存在或已被移动。请检查 URL 是否正确，或使用以下方式继续浏览。
+    </p>
+
+    <div class="error-actions">
+      <a href="index.html" class="btn-home">← 返回首页</a>
+      <a href="blog/" class="btn-search">📝 浏览博客</a>
+    </div>
+
+    <form class="search-mini" onsubmit="handle404Search(event)">
+      <input type="text" id="searchInput" placeholder="搜索站内内容…" autofocus>
+      <button type="submit">🔍 搜索</button>
+    </form>
+  </article>
+
+  <script>
+    // Redirect 404 search to the main search page
+    function handle404Search(e) {
+      e.preventDefault();
+      const q = document.getElementById('searchInput').value.trim();
+      if (q) {
+        window.location.href = 'search.html?q=' + encodeURIComponent(q);
+      }
+    }
+
+    // Theme toggle (inline for standalone 404 page)
+    (function() {
+      const saved = localStorage.getItem('hfr-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+    })();
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="花飞荣工作室技术博客 — C++/WinUI 3 架构、.NET MAUI 跨平台、评分算法、导播软件开发的深度技术文章。">
+  <meta name="keywords" content="技术博客,花飞荣工作室,C++,WinUI 3,MAUI,评分算法,OBS,libobs,导播软件">
+  <title>博客 | 花飞荣工作室 — 技术实践与工程思考</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="博客 | 花飞荣工作室">
+  <meta property="og:description" content="技术博客 — C++/WinUI 3 架构、.NET MAUI 跨平台、评分算法、导播软件开发的深度技术文章。">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com/blog/">
+  <meta property="og:site_name" content="花飞荣工作室">
+  <link rel="canonical" href="https://huafeirong.com/blog/">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "花飞荣工作室技术博客",
+    "url": "https://huafeirong.com/blog/",
+    "description": "技术实践与工程思考",
+    "publisher": { "@type": "Organization", "name": "花飞荣工作室" },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Huafeirong Studio Native — C++20 与 WinUI 3 的原生融合",
+        "url": "https://huafeirong.com/blog/huafeirong-native-architecture.html",
+        "datePublished": "2026-06-05"
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "赛事评分算法 — 去高低分与加权平均的工程实现",
+        "url": "https://huafeirong.com/blog/scoring-algorithm.html",
+        "datePublished": "2026-06-03"
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": ".NET MAUI 跨平台实战 — 一套代码覆盖 Windows/Android/iOS/macOS",
+        "url": "https://huafeirong.com/blog/dotnet-maui-cross-platform.html",
+        "datePublished": "2026-06-01"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="alternate" type="application/atom+xml" title="花飞荣工作室技术博客 RSS" href="../atom.xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/blog.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    #blog-page { background: var(--bg-primary); padding: 100px 24px 80px; min-height: 100vh; }
+    .blog-page-header { max-width: 900px; margin: 0 auto 50px; text-align: center; }
+    .blog-page-header h1 { font-size: 48px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 12px; }
+    .blog-page-header p { color: var(--text-secondary); font-size: 17px; max-width: 560px; margin: 0 auto; }
+
+    .blog-list { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+
+    .blog-list-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.25s, transform 0.2s;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .blog-list-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .blc-header { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+    .blc-date { font-size: 13px; color: var(--text-tertiary); font-family: monospace; }
+    .blc-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .blc-tag {
+      font-size: 12px; padding: 3px 10px; border-radius: 20px;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent); font-weight: 500;
+    }
+    .blc-title { font-size: 24px; font-weight: 700; margin-bottom: 10px; color: var(--text-primary); }
+    .blc-excerpt { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+    .blc-read { font-size: 14px; color: var(--accent); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+    .blc-read::after { content: '→'; transition: transform 0.2s; }
+    .blog-list-card:hover .blc-read::after { transform: translateX(4px); }
+
+    .back-home { text-align: center; margin-top: 60px; }
+    .back-home a { color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: color 0.2s; }
+    .back-home a:hover { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .blog-page-header h1 { font-size: 32px; }
+      .blog-list-card { padding: 24px 20px; }
+      .blc-title { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">HFR<span class="accent">.</span></a>
+      <div class="nav-links">
+        <a href="../ecs.html">ECS</a>
+        <a href="../studio.html">Huafeirong Studio</a>
+        <a href="../portfolio.html">作品集</a>
+        <a href="index.html" class="active">博客</a>
+        <a href="../status.html">状态</a>
+        <a href="../contact.html">联系我们</a>
+        <a href="../index.html#about">关于</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="菜单">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section id="blog-page">
+    <div class="blog-page-header">
+      <h1>技术博客</h1>
+      <p>技术实践与工程思考 — 从 C++ 引擎到 .NET 跨平台，记录真实的开发历程。</p>
+    </div>
+
+    <div class="blog-list">
+      <a href="huafeirong-native-architecture.html" class="blog-list-card">
+        <div class="blc-header">
+          <span class="blc-date">2026-06-05</span>
+          <div class="blc-tags">
+            <span class="blc-tag">技术架构</span>
+            <span class="blc-tag">C++</span>
+            <span class="blc-tag">WinUI 3</span>
+          </div>
+        </div>
+        <h2 class="blc-title">Huafeirong Studio Native — C++20 与 WinUI 3 的原生融合</h2>
+        <p class="blc-excerpt">从 Electron 架构迁移到 C++/libobs/WinUI 3 原生架构的完整记录，包含性能对比与架构决策。</p>
+        <span class="blc-read">阅读全文</span>
+      </a>
+
+      <a href="scoring-algorithm.html" class="blog-list-card">
+        <div class="blc-header">
+          <span class="blc-date">2026-06-03</span>
+          <div class="blc-tags">
+            <span class="blc-tag">算法</span>
+            <span class="blc-tag">.NET</span>
+            <span class="blc-tag">评分系统</span>
+          </div>
+        </div>
+        <h2 class="blc-title">赛事评分算法 — 去高低分与加权平均的工程实现</h2>
+        <p class="blc-excerpt">深入讲解 ContestScoring System 的评分引擎设计：去高低分、加权求和、同分并列处理。</p>
+        <span class="blc-read">阅读全文</span>
+      </a>
+
+      <a href="dotnet-maui-cross-platform.html" class="blog-list-card">
+        <div class="blc-header">
+          <span class="blc-date">2026-06-01</span>
+          <div class="blc-tags">
+            <span class="blc-tag">.NET</span>
+            <span class="blc-tag">MAUI</span>
+            <span class="blc-tag">移动开发</span>
+          </div>
+        </div>
+        <h2 class="blc-title">.NET MAUI 跨平台实战 — 一套代码覆盖 Windows/Android/iOS/macOS</h2>
+        <p class="blc-excerpt">ContestScoring Mobile 的多平台开发实录：从项目搭建、Handler 定制到四平台部署的完整经验。</p>
+        <span class="blc-read">阅读全文</span>
+      </a>
+    </div>
+
+    <div class="back-home">
+      <a href="../index.html">← 返回首页</a>
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

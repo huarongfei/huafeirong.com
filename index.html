@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="Huafeirong Studio — 花飞荣工作室，专业赛事评分系统 & 导播推流工具。ECS 多端评分、Huafeirong Studio 导播、跨平台覆盖。">
+  <meta name="keywords" content="赛事评分,导播软件,ECS,Huafeirong Studio,WinUI 3,libobs,花飞荣工作室">
+  <meta name="author" content="Huafeirong Studio">
+  <title>花飞荣工作室 | Huafeirong Studio — 专业赛事数字化解决方案</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="花飞荣工作室 | Huafeirong Studio">
+  <meta property="og:description" content="专业赛事评分系统 & 导播推流工具。ECS 多端评分、Huafeirong Studio 导播、跨平台覆盖。">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com">
+  <link rel="canonical" href="https://huafeirong.com">
+  <meta property="og:site_name" content="Huafeirong Studio">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "花飞荣工作室 | Huafeirong Studio",
+    "url": "https://huafeirong.com",
+    "description": "专业赛事数字化解决方案 — 赛事评分系统 & 导播推流工具",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://huafeirong.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="花飞荣工作室 | Huafeirong Studio">
+  <meta name="twitter:description" content="专业赛事评分系统 & 导播推流工具。ECS 多端评分、Huafeirong Studio 导播、跨平台覆盖。">
+  <meta name="twitter:image" content="https://huafeirong.com/assets/og-image.svg">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">HFR<span class="accent">.</span></a>
+      <div class="nav-links">
+        <a href="ecs.html">ECS</a>
+        <a href="studio.html">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="blog/">博客</a>
+        <a href="status.html">状态</a>
+        <a href="contact.html">联系我们</a>
+        <a href="#about">关于</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-greeting">花飞荣工作室</p>
+      <h1 class="hero-title">
+        用代码构建<span class="gradient-text">专业赛事</span>体验
+      </h1>
+      <p class="hero-desc">
+        从演讲比赛到歌唱大赛，从桌面评分到大屏导播——<br>
+        一体化数字化赛事解决方案
+      </p>
+      <div class="hero-actions">
+        <a href="ecs.html" class="btn-primary">了解 ECS 赛事系统</a>
+        <a href="#projects" class="btn-secondary">查看全部项目</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ECS Showcase -->
+  <section id="ecs">
+    <div class="section-header">
+      <span class="section-tag">旗舰项目</span>
+      <h2>ECS 多端赛事评分系统</h2>
+      <p>Contest Scoring System — 面向演讲/歌唱比赛的智能评分管理平台</p>
+    </div>
+
+    <!-- Architecture Diagram -->
+    <div class="ecs-arch">
+      <h3>系统架构</h3>
+      <div class="arch-diagram" id="archDiagram">
+        <!-- Desktop -->
+        <div class="arch-node arch-desktop">
+          <div class="arch-icon">🖥️</div>
+          <div class="arch-label">Desktop 控制台</div>
+          <div class="arch-tech">WinUI 3 · .NET 8</div>
+          <div class="arch-features">
+            <span>比赛管理</span><span>评委打分</span><span>轮次流转</span>
+            <span>舞台展示</span><span>奖项排名</span><span>数据导出</span>
+            <span>历史记录</span><span>数据可视化</span>
+          </div>
+        </div>
+
+        <!-- ECS Server -->
+        <div class="arch-node arch-hub">
+          <div class="arch-icon">📡</div>
+          <div class="arch-label">ECS Server</div>
+          <div class="arch-tech">Node.js · Socket.IO · Express</div>
+          <div class="arch-features">
+            <span>实时评分同步</span><span>选手切换推送</span>
+            <span>投票结果广播</span><span>评委在线管理</span>
+          </div>
+        </div>
+
+        <!-- Mobile -->
+        <div class="arch-node arch-mobile">
+          <div class="arch-icon">📱</div>
+          <div class="arch-label">Mobile 评委端</div>
+          <div class="arch-tech">.NET MAUI · .NET 10</div>
+          <div class="arch-features">
+            <span>LAN PIN 连接</span><span>移动评分</span>
+            <span>实时结果</span><span>观众投票</span>
+          </div>
+        </div>
+
+        <!-- Connections -->
+        <svg class="arch-lines" viewBox="0 0 800 400" preserveAspectRatio="none">
+          <path class="line-desktop-hub" d="M 210,200 Q 400,200 400,280" fill="none" stroke="url(#grad1)" stroke-width="2" stroke-dasharray="6,4"/>
+          <path class="line-hub-mobile" d="M 400,320 Q 400,200 590,200" fill="none" stroke="url(#grad2)" stroke-width="2" stroke-dasharray="6,4"/>
+          <defs>
+            <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+            <linearGradient id="grad2" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#8b5cf6"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Feature Grid -->
+    <div class="ecs-features">
+      <div class="feature-card">
+        <div class="fc-icon">⚖️</div>
+        <h4>智能评分引擎</h4>
+        <p>多维度评分 · 去高低分算法 · 加权平均 · 同分并列处理 · 跨轮次汇总</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">📡</div>
+        <h4>LAN 实时通信</h4>
+        <p>Node.js 服务端 · Socket.IO 实时通信 · 移动端 LAN 扫码/PIN 连接 · 毫秒级同步</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🏆</div>
+        <h4>智能奖项排名</h4>
+        <p>自动生成推荐奖项 · 按排名区间分配 · 支持自定义颜色分级 · CSV 批量导出</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🎭</div>
+        <h4>大屏舞台展示</h4>
+        <p>独立全屏窗口 · 渐变背景 · 实时分数动画 · 倒计时 · 亮/暗双主题</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🗳️</div>
+        <h4>观众投票</h4>
+        <p>Socket.IO 实时计票 · 柱状图可视化 · 匿名/实名投票 · 结果即时广播</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">📱</div>
+        <h4>跨平台覆盖</h4>
+        <p>Windows · Android · iOS · macOS · 一套 Shared 代码库 · 多端复用</p>
+      </div>
+    </div>
+
+    <!-- Data Flow -->
+    <div class="ecs-dataflow">
+      <h3>实时数据流</h3>
+      <div class="dataflow-timeline">
+        <div class="df-step">
+          <div class="df-num">1</div>
+          <h4>Desktop 创建比赛</h4>
+          <p>配置评委权重、评分维度、轮次结构</p>
+        </div>
+        <div class="df-arrow">→</div>
+        <div class="df-step">
+          <div class="df-num">2</div>
+          <h4>启动 LAN 服务</h4>
+          <p>自动获取 IP · 生成 PIN 码 · 广播在线状态</p>
+        </div>
+        <div class="df-arrow">→</div>
+        <div class="df-step">
+          <div class="df-num">3</div>
+          <h4>评委移动端接入</h4>
+          <p>输入 PIN 连接 · Socket.IO 实时连接 · 实时接收选手信息</p>
+        </div>
+        <div class="df-arrow">→</div>
+        <div class="df-step">
+          <div class="df-num">4</div>
+          <h4>实时评分 & 展示</h4>
+          <p>评分推送 · 排名计算 · 舞台大屏同步 · 即时结果</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Platform Matrix -->
+    <div class="ecs-platforms">
+      <h3>支持平台</h3>
+      <div class="platform-grid">
+        <div class="platform-item done">
+          <div class="pl-icon">🪟</div>
+          <span>Windows Desktop</span><small>WinUI 3</small>
+        </div>
+        <div class="platform-item done">
+          <div class="pl-icon">🤖</div>
+          <span>Android</span><small>.NET MAUI</small>
+        </div>
+        <div class="platform-item done">
+          <div class="pl-icon">🍎</div>
+          <span>iOS</span><small>.NET MAUI</small>
+        </div>
+        <div class="platform-item done">
+          <div class="pl-icon">💻</div>
+          <span>macOS</span><small>Mac Catalyst</small>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:40px">
+      <a href="ecs.html" class="btn-secondary">查看完整技术细节 →</a>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-tag">全部项目</span>
+      <h2>作品集</h2>
+    </div>
+
+    <div class="project-cards">
+      <a href="studio.html" class="project-card">
+        <div class="pc-header">
+          <div class="pc-tag">C++ · WinUI 3</div>
+          <h3>Huafeirong Studio</h3>
+          <span class="pc-badge">Native</span>
+        </div>
+        <p>专业级大屏导播/推流直播/录屏一体化软件。基于 libobs 引擎，支持多场景管理、PVW/PGM 双预览、转场特效、虚拟摄像头、音频混音等完整导播功能。</p>
+        <div class="pc-stack">
+          <span>C++20</span><span>libobs</span><span>WinUI 3</span><span>.NET 8</span><span>CMake</span>
+        </div>
+      </a>
+
+      <a href="ecs.html" class="project-card featured">
+        <div class="pc-header">
+          <div class="pc-tag">C# · WinUI 3 · MAUI</div>
+          <h3>ECS 赛事评分系统</h3>
+          <span class="pc-badge">⭐ 主力</span>
+        </div>
+        <p>面向演讲/歌唱比赛的智能评分管理平台。支持评委打分、去高低分加权平均、轮次流转、大屏舞台展示、观众投票、数据可视化，Desktop + Mobile 多端覆盖。</p>
+        <div class="pc-stack">
+          <span>Node.js</span><span>Socket.IO</span><span>WPF</span><span>Kotlin</span><span>React</span>
+        </div>
+      </a>
+
+      <div class="project-card">
+        <div class="pc-header">
+          <div class="pc-tag">React · TypeScript · Electron</div>
+          <h3>Huafeirong Studio</h3>
+          <span class="pc-badge old">已废弃</span>
+        </div>
+        <p>第一代 Electron + Vite + React 架构导播软件。因渲染性能与原生集成限制，已重构为 Native 版本。保留作为技术演进参考。</p>
+        <div class="pc-stack">
+          <span>Electron</span><span>React 18</span><span>TypeScript</span><span>Vite</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section id="tech">
+    <div class="section-header">
+      <span class="section-tag">技术能力</span>
+      <h2>核心技术栈</h2>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-group">
+        <h4>桌面开发</h4>
+        <div class="tech-items">
+          <span>WinUI 3</span><span>WPF</span><span>WinForms</span><span>.NET 8</span>
+          <span>C# 12</span><span>XAML</span><span>Windows App SDK</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <h4>原生引擎</h4>
+        <div class="tech-items">
+          <span>C++20</span><span>libobs</span><span>CMake</span><span>MSVC</span>
+          <span>P/Invoke</span><span>DLL 导出</span><span>OBS SDK</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <h4>移动 & 跨平台</h4>
+        <div class="tech-items">
+          <span>.NET MAUI</span><span>Xamarin</span><span>Android SDK</span>
+          <span>iOS SDK</span><span>Mac Catalyst</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <h4>网络 & 通信</h4>
+        <div class="tech-items">
+          <span>SignalR</span><span>Kestrel</span><span>WebSocket</span>
+          <span>HTTP/2</span><span>REST API</span><span>CORS</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <h4>前端 & Web</h4>
+        <div class="tech-items">
+          <span>React 18</span><span>TypeScript</span><span>HTML5/CSS3</span>
+          <span>Electron</span><span>Vite</span><span>Canvas/SVG</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <h4>工具 & DevOps</h4>
+        <div class="tech-items">
+          <span>Git</span><span>MSBuild</span><span>PowerShell</span>
+          <span>AppX/MSIX</span><span>CI/CD</span><span>NuGet</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section id="contact">
+    <div class="contact-cta">
+      <h2>开始构建你的<span class="gradient-text">赛事体验</span></h2>
+      <p>无论是比赛评分、大屏导播还是推流直播，我们都有合适的工具。</p>
+      <div class="contact-links">
+        <a href="https://github.com/koudaima" target="_blank" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="mailto:koudaima@huafeirong.com" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          邮件联系
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog">
+    <div class="section-header">
+      <span class="section-tag">技术博客</span>
+      <h2>近期更新</h2>
+    </div>
+    <div class="blog-grid">
+      <a href="blog/huafeirong-native-architecture.html" class="blog-card">
+        <div class="bc-meta">
+          <span class="bc-date">2026-06-05</span>
+          <span class="bc-tag">技术架构</span>
+        </div>
+        <h3 class="bc-title">Huafeirong Studio Native — C++20 与 WinUI 3 的原生融合</h3>
+        <p class="bc-excerpt">从 Electron 架构迁移到 C++/libobs/WinUI 3 原生架构的完整记录，包含性能对比与架构决策...</p>
+        <span class="bc-read">阅读全文 →</span>
+      </a>
+      <a href="blog/scoring-algorithm.html" class="blog-card">
+        <div class="bc-meta">
+          <span class="bc-date">2026-06-03</span>
+          <span class="bc-tag">算法</span>
+        </div>
+        <h3 class="bc-title">赛事评分算法——去高低分与加权平均的工程实现</h3>
+        <p class="bc-excerpt">深入讲解 Contest Scoring System 的评分引擎设计：去高低分、加权求和、同分并列处理...</p>
+        <span class="bc-read">阅读全文 →</span>
+      </a>
+      <a href="blog/dotnet-maui-cross-platform.html" class="blog-card">
+        <div class="bc-meta">
+          <span class="bc-date">2026-06-01</span>
+          <span class="bc-tag">.NET</span>
+        </div>
+        <h3 class="bc-title">.NET MAUI 跨平台实战——一套代码覆盖 Windows/Android/iOS</h3>
+        <p class="bc-excerpt">ContestScoring Mobile 的 MAUI 多平台构建经验，包含 Android/iOS/macOS 的适配要点...</p>
+        <span class="bc-read">阅读全文 →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-tag">关于</span>
+      <h2>花飞荣工作室</h2>
+    </div>
+    <div class="about-content">
+      <div class="about-text">
+        <p>花飞荣工作室致力于用技术赋能专业赛事体验。从桌面端导播软件到移动端评分系统，我们构建完整的数字化赛事解决方案。</p>
+        <p>坚持使用现代技术栈（.NET 8/10、C++20、WinUI 3、MAUI），追求高性能、低延迟、跨平台覆盖的工程目标。</p>
+        <div class="about-links">
+          <a href="https://github.com/koudaima" target="_blank" class="about-link">GitHub</a>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat"><strong>3</strong><span>核心项目</span></div>
+        <div class="stat"><strong>6</strong><span>覆盖平台</span></div>
+        <div class="stat"><strong>600+</strong><span>源文件</span></div>
+        <div class="stat"><strong>177</strong><span>任务完成</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">HFR<span class="accent">.</span></span>
+        <p>花飞荣工作室 — 用代码构建专业赛事体验</p>
+      </div>
+      <div class="footer-links">
+        <a href="ecs.html">ECS 赛事系统</a>
+        <a href="studio.html">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="privacy.html">隐私政策</a>
+        <a href="https://github.com/koudaima" target="_blank">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Huafeirong Studio. Built with passion.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

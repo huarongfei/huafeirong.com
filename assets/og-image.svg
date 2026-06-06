@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#111118"/>
+    </linearGradient>
+    <linearGradient id="text" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="20%" cy="30%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="80%" cy="70%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <text x="600" y="210" text-anchor="middle" font-family="Inter,Noto Sans SC,sans-serif" font-size="72" font-weight="800" fill="url(#text)" letter-spacing="-2">Huafeirong Studio</text>
+  <text x="600" y="280" text-anchor="middle" font-family="Noto Sans SC,Inter,sans-serif" font-size="52" font-weight="700" fill="#e8e8ed" letter-spacing="-1">花飞荣工作室</text>
+  <text x="600" y="380" text-anchor="middle" font-family="Noto Sans SC,Inter,sans-serif" font-size="24" fill="#9898b0">专业赛事评分系统  ·  导播推流工具  ·  跨平台数字化解决方案</text>
+  <line x1="300" y1="430" x2="900" y2="430" stroke="#252536" stroke-width="1"/>
+  <text x="600" y="500" text-anchor="middle" font-family="Inter,Noto Sans SC,sans-serif" font-size="20" fill="#686880">ECS 多端评分  ·  Huafeirong Studio Native  ·  .NET + C++ 技术栈</text>
+</svg>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="站内搜索 — 花飞荣工作室。搜索项目文档、博客文章、技术方案等内容。">
+  <title>站内搜索 | 花飞荣工作室</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="站内搜索 | 花飞荣工作室">
+  <meta property="og:description" content="搜索花飞荣工作室全站内容。">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com/search.html">
+  <meta property="og:site_name" content="花飞荣工作室">
+  <link rel="canonical" href="https://huafeirong.com/search.html">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .search-page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 2rem 3rem;
+      min-height: calc(100vh - 70px);
+    }
+    .search-page h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary, #fff);
+    }
+    .search-subtitle {
+      color: var(--text-secondary, #a0a0b0);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+    .search-form {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .search-form input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: 2px solid var(--border-color, #2a2a3a);
+      border-radius: 10px;
+      background: var(--bg-card, #1a1a2e);
+      color: var(--text-primary, #fff);
+      font-size: 1.05rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-form input:focus {
+      border-color: var(--accent, #6c63ff);
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    }
+    .search-form button {
+      padding: 0.9rem 2rem;
+      background: var(--accent, #6c63ff);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .search-form button:hover {
+      background: #5a52d5;
+      transform: translateY(-1px);
+    }
+
+    /* Results */
+    .search-stats {
+      color: var(--text-secondary, #a0a0b0);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .result-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .result-item {
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card, #1a1a2e);
+      border: 1px solid var(--border-color, #2a2a3a);
+      border-radius: 10px;
+      transition: border-color 0.2s, transform 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .result-item:hover {
+      border-color: var(--accent, #6c63ff);
+      transform: translateX(4px);
+    }
+    .result-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent, #6c63ff);
+      margin-bottom: 0.35rem;
+    }
+    .result-url {
+      font-size: 0.8rem;
+      color: #4a9;
+      margin-bottom: 0.5rem;
+    }
+    .result-snippet {
+      font-size: 0.92rem;
+      color: var(--text-secondary, #a0a0b0);
+      line-height: 1.5;
+    }
+    .result-snippet mark {
+      background: rgba(108, 99, 255, 0.25);
+      color: var(--text-primary, #fff);
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+    .result-tags {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .result-tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(108, 99, 255, 0.15);
+      color: var(--accent, #6c63ff);
+    }
+
+    /* Empty state */
+    .no-results {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-secondary, #a0a0b0);
+    }
+    .no-results .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+    .no-results p {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .no-results .hint {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* Quick links */
+    .quick-links {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color, #2a2a3a);
+    }
+    .quick-links h3 {
+      font-size: 0.95rem;
+      color: var(--text-secondary, #a0a0b0);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+    .quick-links .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .quick-links a {
+      padding: 0.4rem 0.9rem;
+      background: var(--bg-card, #1a1a2e);
+      border: 1px solid var(--border-color, #2a2a3a);
+      border-radius: 6px;
+      color: var(--text-secondary, #a0a0b0);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .quick-links a:hover {
+      border-color: var(--accent, #6c63ff);
+      color: var(--accent, #6c63ff);
+    }
+
+    /* Light theme */
+    [data-theme="light"] .search-page h1 { color: #1a1a2e; }
+    [data-theme="light"] .search-subtitle { color: #555; }
+    [data-theme="light"] .search-form input {
+      background: #fff;
+      border-color: #d0d0e0;
+      color: #1a1a2e;
+    }
+    [data-theme="light"] .result-item { background: #fff; border-color: #e8e8f0; }
+    [data-theme="light"] .result-snippet { color: #555; }
+    [data-theme="light"] .result-snippet mark { color: #1a1a2e; }
+    [data-theme="light"] .result-url { color: #2a8; }
+    [data-theme="light"] .quick-links a { background: #f5f5fa; border-color: #e0e0ec; }
+
+    @media (max-width: 600px) {
+      .search-page { padding: 2rem 1rem; }
+      .search-form { flex-direction: column; }
+      .search-page h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">HFR<span class="accent">.</span></a>
+      <div class="nav-links">
+        <a href="ecs.html">ECS</a>
+        <a href="studio.html">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="blog/">博客</a>
+        <a href="status.html">状态</a>
+        <a href="contact.html">联系我们</a>
+        <a href="index.html#about">关于</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="菜单">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="search-page">
+    <h1>站内搜索</h1>
+    <p class="search-subtitle">搜索项目文档、博客文章与技术方案</p>
+
+    <form class="search-form" onsubmit="doSearch(event)">
+      <input type="text" id="searchBox" placeholder="输入关键词…" autofocus>
+      <button type="submit">🔍 搜索</button>
+    </form>
+
+    <div id="resultsArea">
+      <div id="resultsStats" class="search-stats" style="display:none"></div>
+      <div id="resultsList" class="result-list"></div>
+    </div>
+
+    <div class="quick-links">
+      <h3>快速导航</h3>
+      <div class="links">
+        <a href="index.html">首页</a>
+        <a href="ecs.html">ECS 赛事系统</a>
+        <a href="studio.html">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="blog/">博客</a>
+        <a href="blog/huafeirong-native-architecture.html">架构迁移实录</a>
+        <a href="blog/scoring-algorithm.html">评分算法详解</a>
+        <a href="blog/dotnet-maui-cross-platform.html">MAUI 跨平台实战</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    // === Search Index ===
+    const searchIndex = [
+      {
+        title: "花飞荣工作室 — 首页",
+        url: "index.html",
+        tags: ["首页", "工作室"],
+        content: "花飞荣工作室 Huafeirong Studio 专业赛事数字化解决方案 赛事评分系统 导播推流工具 ECS多端评分 Huafeirong Studio导播 跨平台覆盖 演讲比赛 歌唱比赛 智能评分 实时排名 LAN无线评分 舞台大屏展示 数据导出 美颜滤镜 虚拟摄像头 推流直播 场景导播"
+      },
+      {
+        title: "ECS 多端赛事评分系统",
+        url: "ecs.html",
+        tags: ["ECS", "赛事系统", "评分"],
+        content: "ECS 多端赛事评分系统 面向演讲歌唱比赛的智能评分管理平台 五端协同 Windows Android HarmonyOS Web Server 开源MIT协议 桌面端WinUI3评委管理 移动端评分 网页端分析大屏 Node.js服务端 数据同步多端打分 Socket.IO实时通信 记分板 计时器 犯规记录 导播控制 多画面切换 实时字幕叠加 赛程编排 选手管理"
+      },
+      {
+        title: "Huafeirong Studio Native — 导播推流软件",
+        url: "studio.html",
+        tags: ["导播", "推流", "录屏", "libobs"],
+        content: "Huafeirong Studio Native 基于libobs引擎的专业大屏导播推流直播录屏一体化软件 C++20 WinUI3原生架构 多画面布局 场景切换 转场特效 音频混音 美颜滤镜 RTMP推流 SRT推流 虚拟摄像头 快捷键导播 性能监控 FPS CPU GPU占用 台标叠加 字幕叠加 绿幕抠图 降噪"
+      },
+      {
+        title: "作品集 — 花飞荣工作室",
+        url: "portfolio.html",
+        tags: ["作品集", "项目展示"],
+        content: "花飞荣工作室作品集 Huafeirong Studio ECS赛事系统 ContestScoring MyWeb个人网站 技术栈 C++ C# .NET WinUI3 React TypeScript Node.js MAUI 跨平台 开源项目 项目展示"
+      },
+      {
+        title: "博客列表",
+        url: "blog/",
+        tags: ["博客", "文章"],
+        content: "花飞荣工作室博客 技术文章 架构设计 算法分析 跨平台开发 .NET MAUI C++ WinUI3 libobs 赛事评分 导播推流 前端开发 后端架构"
+      },
+      {
+        title: "Huafeirong Studio Native — C++20 与 WinUI 3 的原生融合",
+        url: "blog/huafeirong-native-architecture.html",
+        tags: ["技术架构", "C++", "WinUI3", "libobs"],
+        content: "Electron架构迁移到C++ libobs WinUI3原生架构 完整记录 性能对比 架构决策 C++20现代特性 P/Invoke桥接层 CMake构建系统 场景图管理 音视频管线 渲染管线 编码器 输出模块 内存管理 智能指针 RAII 线程安全 性能优化 启动速度 内存占用 帧率 D3D11 GPU渲染 OBS Studio集成"
+      },
+      {
+        title: "赛事评分算法 — 去高低分与加权平均的工程实现",
+        url: "blog/scoring-algorithm.html",
+        tags: ["算法", "评分", "数学"],
+        content: "ContestScoring System评分引擎设计 去高低分 加权求和 同分并列处理 多轮次排名算法 维度加权 演讲评分 歌唱评分 实时计算 四维度评分 内容 表达 台风 时间控制 音准 节奏 表现力 技巧 去掉最高分 去掉最低分 评委权重 总分计算 奖项分配 一等奖 二等奖 三等奖 优秀奖"
+      },
+      {
+        title: ".NET MAUI 跨平台实战 — 一套代码覆盖 Windows/Android/iOS/macOS",
+        url: "blog/dotnet-maui-cross-platform.html",
+        tags: [".NET", "MAUI", "跨平台", "移动开发"],
+        content: "ContestScoring Mobile MAUI多平台构建 Android iOS macOS Windows Handler定制 平台特定代码 安全区域 SafeArea TableView性能 CollectionView 页面导航 Shell路由 SignalR客户端 依赖注入 HttpClient 证书验证 后台任务 推送通知 XAML陷阱 条件编译 构建部署 AppCenter Fastlane"
+      }
+    ];
+
+    // === Search Engine ===
+    function tokenize(text) {
+      return text.toLowerCase()
+        .replace(/[，。！？、；：""''《》【】（）\s]+/g, ' ')
+        .split(' ')
+        .filter(t => t.length > 0);
+    }
+
+    function search(query) {
+      const q = query.toLowerCase().trim();
+      if (!q) return [];
+
+      const qTokens = tokenize(q);
+      const results = [];
+
+      for (const page of searchIndex) {
+        const contentTokens = tokenize(page.content);
+        const titleTokens = tokenize(page.title);
+        const tagTokens = page.tags.map(t => t.toLowerCase());
+        const allTokens = [...titleTokens, ...tagTokens, ...contentTokens];
+
+        // Count matching tokens (fuzzy: substring match counts too)
+        let score = 0;
+        const matchedTerms = new Set();
+
+        for (const qt of qTokens) {
+          // Title match (highest weight)
+          for (const tt of titleTokens) {
+            if (tt.includes(qt) || qt.includes(tt)) {
+              score += 5;
+              matchedTerms.add(qt);
+            }
+          }
+          // Tag match
+          for (const tg of tagTokens) {
+            if (tg.includes(qt) || qt.includes(tg)) {
+              score += 3;
+              matchedTerms.add(qt);
+            }
+          }
+          // Content match
+          for (const ct of contentTokens) {
+            if (ct.includes(qt) || qt.includes(ct)) {
+              score += 1;
+              matchedTerms.add(qt);
+            }
+          }
+        }
+
+        if (score > 0) {
+          // Generate snippet
+          let snippet = page.content;
+          const firstMatch = qTokens.find(t => {
+            // Find best matching sentence
+            const idx = snippet.toLowerCase().indexOf(t);
+            if (idx >= 0) {
+              const start = Math.max(0, idx - 30);
+              const end = Math.min(snippet.length, idx + t.length + 60);
+              snippet = (start > 0 ? '…' : '') + snippet.slice(start, end) + (end < snippet.length ? '…' : '');
+              return true;
+            }
+            return false;
+          });
+          if (!firstMatch) snippet = page.content.slice(0, 120) + '…';
+
+          // Highlight
+          qTokens.forEach(t => {
+            const re = new RegExp(`(${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            snippet = snippet.replace(re, '<mark>$1</mark>');
+          });
+
+          results.push({
+            title: page.title,
+            url: page.url,
+            tags: page.tags,
+            snippet,
+            score
+          });
+        }
+      }
+
+      results.sort((a, b) => b.score - a.score);
+      return results;
+    }
+
+    function renderResults(results, query) {
+      const statsEl = document.getElementById('resultsStats');
+      const listEl = document.getElementById('resultsList');
+
+      if (!query) {
+        statsEl.style.display = 'none';
+        listEl.innerHTML = '';
+        return;
+      }
+
+      statsEl.style.display = 'block';
+      statsEl.textContent = `找到 ${results.length} 条结果，搜索 "${query}"`;
+
+      if (results.length === 0) {
+        listEl.innerHTML = `
+          <div class="no-results">
+            <div class="icon">🔍</div>
+            <p>没有找到与 "${query}" 相关的结果</p>
+            <p class="hint">试试更简短的关键词，或使用不同表述</p>
+          </div>`;
+        return;
+      }
+
+      listEl.innerHTML = results.map(r => `
+        <a href="${r.url}" class="result-item">
+          <div class="result-title">${r.title}</div>
+          <div class="result-url">huafeirong.com/${r.url}</div>
+          <div class="result-snippet">${r.snippet}</div>
+          <div class="result-tags">${r.tags.map(t => `<span class="result-tag">${t}</span>`).join('')}</div>
+        </a>
+      `).join('');
+    }
+
+    function doSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchBox').value.trim();
+      const results = search(query);
+
+      // Update URL without reload
+      const url = new URL(window.location);
+      if (query) {
+        url.searchParams.set('q', query);
+      } else {
+        url.searchParams.delete('q');
+      }
+      window.history.replaceState({}, '', url);
+
+      renderResults(results, query);
+    }
+
+    // On page load, check URL for pre-filled query
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q');
+      if (q) {
+        document.getElementById('searchBox').value = q;
+        const results = search(q);
+        renderResults(results, q);
+      }
+    })();
+  </script>
+</body>
+</html>

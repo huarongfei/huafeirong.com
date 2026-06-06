@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="ECS 多端赛事评分系统 — 面向演讲/歌唱比赛的智能评分管理平台。五端协同（Windows/Android/HarmonyOS/Web/Server），开源 MIT 协议。">
+  <meta name="keywords" content="ECS,赛事评分系统,演讲比赛,歌唱比赛,多端评分,SignalR,开源">
+  <title>ECS 多端赛事评分系统 | Huafeirong Studio</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ECS 多端赛事评分系统 | Huafeirong Studio">
+  <meta property="og:description" content="面向演讲/歌唱比赛的智能评分管理平台。五端协同（Windows/Android/HarmonyOS/Web/Server），开源 MIT 协议。">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com/ecs.html">
+  <meta property="og:site_name" content="花飞荣工作室">
+  <link rel="canonical" href="https://huafeirong.com/ecs.html">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ECS Page Specific */
+    .ecs-hero {
+      min-height: 80vh; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: 120px 24px 80px;
+    }
+    .ecs-hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(99,102,241,0.15), transparent 70%),
+                  radial-gradient(ellipse 50% 60% at 70% 80%, rgba(6,182,212,0.1), transparent 70%);
+    }
+    .ecs-hero-content { position: relative; z-index: 1; text-align: center; max-width: 800px; }
+    .ecs-badge {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+      color: var(--accent); padding: 6px 16px; background: rgba(99,102,241,0.12); border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .ecs-badge .oss { color: var(--green); }
+    .ecs-hero-title { font-size: 52px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; letter-spacing: -1px; }
+    .ecs-hero-desc { font-size: 18px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .ecs-hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .ecs-hero-stats {
+      display: flex; gap: 48px; justify-content: center; margin-top: 48px;
+    }
+    .ecs-hero-stat { text-align: center; }
+    .ecs-hero-stat strong {
+      display: block; font-size: 36px; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .ecs-hero-stat span { font-size: 13px; color: var(--text-muted); margin-top: 4px; display: block; }
+
+    /* Architecture */
+    .arch-section { background: var(--bg-secondary); padding: 100px 24px; }
+    .arch-container { max-width: 1200px; margin: 0 auto; }
+    .arch-topology {
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+    }
+    .arch-server {
+      background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(99,102,241,0.06));
+      border: 1px solid rgba(139,92,246,0.25); border-radius: var(--radius-lg);
+      padding: 32px 40px; text-align: center; max-width: 500px;
+    }
+    .arch-server .arch-icon { font-size: 36px; margin-bottom: 8px; }
+    .arch-server .arch-label { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .arch-server .arch-tech { font-size: 13px; color: var(--text-muted); }
+    .arch-clients {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; max-width: 1000px;
+    }
+    .arch-client {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 24px; text-align: center; transition: all 0.3s;
+    }
+    .arch-client:hover { transform: translateY(-4px); }
+    .arch-client.windows:hover { border-color: var(--accent); }
+    .arch-client.android:hover { border-color: var(--green); }
+    .arch-client.harmony:hover { border-color: var(--accent3); }
+    .arch-client.web:hover { border-color: var(--accent4); }
+    .arch-client-icon { font-size: 32px; margin-bottom: 8px; }
+    .arch-client-label { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .arch-client-tech { font-size: 12px; color: var(--text-muted); }
+
+    /* Feature List */
+    .feature-list-section { padding: 100px 24px; }
+    .feature-list { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .fl-item {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; transition: all 0.3s; display: flex; gap: 16px; align-items: flex-start;
+    }
+    .fl-item:hover { border-color: rgba(99,102,241,0.2); }
+    .fl-num {
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(99,102,241,0.1);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 18px; font-weight: 700; color: var(--accent);
+    }
+    .fl-content h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .fl-content p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* Platform deep-dive */
+    .platform-deep { background: var(--bg-secondary); padding: 100px 24px; }
+    .platform-cards { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .pd-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 32px; transition: all 0.3s; border-top: 3px solid var(--border);
+    }
+    .pd-card:hover { transform: translateY(-4px); }
+    .pd-card.win { border-top-color: var(--accent); }
+    .pd-card.and { border-top-color: var(--green); }
+    .pd-card.hmy { border-top-color: var(--accent3); }
+    .pd-card.web { border-top-color: var(--accent4); }
+    .pd-card.srv { border-top-color: var(--accent2); }
+    .pd-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .pd-card-icon { font-size: 28px; }
+    .pd-card-name { font-size: 18px; font-weight: 700; }
+    .pd-card-tech { font-size: 12px; color: var(--text-muted); }
+    .pd-card ul { list-style: none; }
+    .pd-card li {
+      font-size: 13px; color: var(--text-secondary); padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pd-card li::before { content: '▸'; color: var(--accent); font-size: 10px; flex-shrink: 0; }
+
+    /* CTA */
+    .ecs-cta { padding: 80px 24px; text-align: center; }
+    .ecs-cta-inner {
+      max-width: 600px; margin: 0 auto; padding: 48px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(6,182,212,0.06));
+      border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-lg);
+    }
+    .ecs-cta h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .ecs-cta p { color: var(--text-secondary); font-size: 15px; margin-bottom: 24px; }
+
+    @media (max-width: 900px) {
+      .ecs-hero-title { font-size: 36px; }
+      .ecs-hero-stats { gap: 24px; }
+      .arch-clients { grid-template-columns: 1fr 1fr; }
+      .feature-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">HFR<span class="accent">.</span></a>
+      <div class="nav-links">
+        <a href="ecs.html" class="active">ECS</a>
+        <a href="index.html#projects">项目</a>
+        <a href="studio.html">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="blog/">博客</a>
+        <a href="status.html">状态</a>
+        <a href="contact.html">联系我们</a>
+        <a href="index.html#about">关于</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="ecs-hero">
+    <div class="ecs-hero-bg"></div>
+    <div class="ecs-hero-content">
+      <div class="ecs-badge">
+        <span class="oss">MIT 开源</span> · 五端协同
+      </div>
+      <h1 class="ecs-hero-title">
+        ECS <span class="gradient-text">多端赛事</span>评分系统
+      </h1>
+      <p class="ecs-hero-desc">
+        Event Control System — 面向演讲比赛、歌唱大赛的专业智能评分管理平台。
+        从评委打分到大屏展示，从移动端实时同步到数据可视化，一套系统覆盖全部赛事流程。
+      </p>
+      <div class="ecs-hero-actions">
+        <a href="https://github.com/koudaima/ecs" target="_blank" class="btn-primary">GitHub 源码</a>
+        <a href="#architecture" class="btn-secondary">系统架构</a>
+      </div>
+      <div class="ecs-hero-stats">
+        <div class="ecs-hero-stat"><strong>5</strong><span>覆盖平台</span></div>
+        <div class="ecs-hero-stat"><strong>4</strong><span>编程语言</span></div>
+        <div class="ecs-hero-stat"><strong>426</strong><span>源文件</span></div>
+        <div class="ecs-hero-stat"><strong>MIT</strong><span>开源协议</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section class="arch-section" id="architecture">
+    <div class="arch-container">
+      <div class="section-header">
+        <span class="section-tag">系统架构</span>
+        <h2>五端协同拓扑</h2>
+        <p>以 Node.js 服务端为核心，通过 WebSocket 实时连接四个客户端</p>
+      </div>
+      <div class="arch-topology">
+        <div class="arch-server">
+          <div class="arch-icon">⚡</div>
+          <div class="arch-label">ECS Server</div>
+          <div class="arch-tech">Node.js · Express · TypeScript · Prisma · Socket.IO</div>
+        </div>
+        <div class="arch-clients">
+          <div class="arch-client windows">
+            <div class="arch-client-icon">🪟</div>
+            <div class="arch-client-label">Windows 评分端</div>
+            <div class="arch-client-tech">WPF · .NET 8</div>
+          </div>
+          <div class="arch-client android">
+            <div class="arch-client-icon">🤖</div>
+            <div class="arch-client-label">Android 裁判端</div>
+            <div class="arch-client-tech">Kotlin · Jetpack Compose</div>
+          </div>
+          <div class="arch-client harmony">
+            <div class="arch-client-icon">🔷</div>
+            <div class="arch-client-label">HarmonyOS 裁判</div>
+            <div class="arch-client-tech">ArkTS · ArkUI NEXT</div>
+          </div>
+          <div class="arch-client web">
+            <div class="arch-client-icon">🌐</div>
+            <div class="arch-client-label">Web 赛况面板</div>
+            <div class="arch-client-tech">React 18 · TypeScript · Vite</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature List -->
+  <section class="feature-list-section">
+    <div class="section-header">
+      <span class="section-tag">核心功能</span>
+      <h2>从赛前到赛后，全流程覆盖</h2>
+    </div>
+    <div class="feature-list">
+      <div class="fl-item"><div class="fl-num">1</div><div class="fl-content"><h4>比赛配置管理</h4><p>评委权重、评分维度、轮次结构、选手分组，灵活配置任意赛制</p></div></div>
+      <div class="fl-item"><div class="fl-num">2</div><div class="fl-content"><h4>实时评分同步</h4><p>裁判端打分即时推送至服务端，毫秒级广播至所有终端</p></div></div>
+      <div class="fl-item"><div class="fl-num">3</div><div class="fl-content"><h4>智能计算引擎</h4><p>去高低分、加权平均、同分并列处理、跨轮次汇总排名</p></div></div>
+      <div class="fl-item"><div class="fl-num">4</div><div class="fl-content"><h4>大屏舞台展示</h4><p>独立全屏窗口，选手信息/实时分数/排名动画/倒计时</p></div></div>
+      <div class="fl-item"><div class="fl-num">5</div><div class="fl-content"><h4>观众互动投票</h4><p>扫码参与投票，实时计票柱状图，结果即时广播</p></div></div>
+      <div class="fl-item"><div class="fl-num">6</div><div class="fl-content"><h4>智能奖项分配</h4><p>自动生成推荐奖项，按排名区间分配，支持自定义颜色分级</p></div></div>
+      <div class="fl-item"><div class="fl-num">7</div><div class="fl-content"><h4>数据导出</h4><p>评分明细/排名结果/奖项列表支持 CSV/XLSX 导出</p></div></div>
+      <div class="fl-item"><div class="fl-num">8</div><div class="fl-content"><h4>历史数据管理</h4><p>多比赛存档、历史查询、数据对比、可视化图表</p></div></div>
+    </div>
+  </section>
+
+  <!-- Platform Deep Dive -->
+  <section class="platform-deep">
+    <div class="section-header">
+      <span class="section-tag">技术细节</span>
+      <h2>五端技术栈详解</h2>
+    </div>
+    <div class="platform-cards">
+      <div class="pd-card win">
+        <div class="pd-card-header">
+          <div class="pd-card-icon">🪟</div>
+          <div><div class="pd-card-name">Windows 评分控制台</div><div class="pd-card-tech">WPF · .NET 8 · C# 12</div></div>
+        </div>
+        <ul>
+          <li>CommunityToolkit.Mvvm MVVM 架构</li>
+          <li>SocketIOClient 实时通信客户端</li>
+          <li>比赛配置、评委管理、轮次控制</li>
+          <li>大屏舞台展示、奖项管理、数据导出</li>
+          <li>66 源文件，模块化服务层</li>
+        </ul>
+      </div>
+      <div class="pd-card and">
+        <div class="pd-card-header">
+          <div class="pd-card-icon">🤖</div>
+          <div><div class="pd-card-name">Android 裁判端</div><div class="pd-card-tech">Kotlin · Jetpack Compose · Material 3</div></div>
+        </div>
+        <ul>
+          <li>Jetpack Compose 声明式 UI</li>
+          <li>Material 3 动态主题</li>
+          <li>Socket.IO 实时评分提交</li>
+          <li>选手列表实时更新</li>
+          <li>139 源文件，完整移动端体验</li>
+        </ul>
+      </div>
+      <div class="pd-card hmy">
+        <div class="pd-card-header">
+          <div class="pd-card-icon">🔷</div>
+          <div><div class="pd-card-name">HarmonyOS 裁判端</div><div class="pd-card-tech">ArkTS · ArkUI NEXT · SDK 6.0</div></div>
+        </div>
+        <ul>
+          <li>ArkUI NEXT 声明式开发范式</li>
+          <li>原生 Socket.IO 兼容层</li>
+          <li>鸿蒙生态适配</li>
+          <li>与 Android 端功能对等</li>
+          <li>81 源文件</li>
+        </ul>
+      </div>
+      <div class="pd-card web">
+        <div class="pd-card-header">
+          <div class="pd-card-icon">🌐</div>
+          <div><div class="pd-card-name">Web 赛况面板</div><div class="pd-card-tech">React 18 · TypeScript · TailwindCSS · Vite</div></div>
+        </div>
+        <ul>
+          <li>React 18 并发特性</li>
+          <li>TailwindCSS 原子化样式</li>
+          <li>大屏实时赛况展示</li>
+          <li>排名动画、分数滚动</li>
+          <li>25 源文件，轻量高效</li>
+        </ul>
+      </div>
+      <div class="pd-card srv">
+        <div class="pd-card-header">
+          <div class="pd-card-icon">⚡</div>
+          <div><div class="pd-card-name">ECS Server</div><div class="pd-card-tech">Node.js · Express · TypeScript · Prisma · Socket.IO</div></div>
+        </div>
+        <ul>
+          <li>TypeScript 严格模式</li>
+          <li>Prisma ORM + SQLite 持久化</li>
+          <li>Socket.IO 房间模式多比赛隔离</li>
+          <li>RESTful API + WebSocket 双通道</li>
+          <li>24 源文件，Docker 部署就绪</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ecs-cta">
+    <div class="ecs-cta-inner">
+      <h2>开源 & 自由使用</h2>
+      <p>ECS 采用 MIT 协议开源，可自由使用、修改和分发。欢迎贡献代码、提交 Issue。</p>
+      <a href="https://github.com/koudaima/ecs" target="_blank" class="btn-primary">前往 GitHub</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Huafeirong Studio. <a href="privacy.html" style="color:var(--text-muted)">隐私政策</a> &middot; <a href="index.html" style="color:var(--accent)">← 返回首页</a></p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

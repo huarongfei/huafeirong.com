@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="Huafeirong Studio Native — 基于 libobs 引擎的专业大屏导播/推流直播/录屏一体化软件。C++20 + WinUI 3 原生架构。">
+  <meta name="keywords" content="Huafeirong Studio,导播软件,OBS,libobs,WinUI 3,推流直播,录屏,虚拟摄像头">
+  <title>Huafeirong Studio Native | 花飞荣工作室</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Huafeirong Studio Native | 花飞荣工作室">
+  <meta property="og:description" content="基于 libobs 引擎的专业大屏导播/推流直播/录屏一体化软件。C++20 + WinUI 3 原生架构。">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com/studio.html">
+  <meta property="og:site_name" content="花飞荣工作室">
+  <link rel="canonical" href="https://huafeirong.com/studio.html">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    .studio-hero {
+      min-height: 80vh; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: 120px 24px 80px;
+    }
+    .studio-hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 30% 40%, rgba(99,102,241,0.18), transparent 60%),
+                  radial-gradient(ellipse 50% 40% at 70% 70%, rgba(139,92,246,0.1), transparent 60%),
+                  radial-gradient(ellipse 40% 30% at 80% 20%, rgba(6,182,212,0.08), transparent 60%);
+    }
+    .studio-hero-content { position: relative; z-index: 1; text-align: center; max-width: 780px; }
+    .studio-badge {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+      color: var(--accent); padding: 6px 16px; background: rgba(99,102,241,0.12); border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .studio-hero-title { font-size: 48px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; letter-spacing: -1px; }
+    .studio-hero-desc { font-size: 18px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 32px; }
+
+    /* Engine Stats */
+    .engine-stats { background: var(--bg-secondary); padding: 80px 24px; }
+    .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px 20px; text-align: center; transition: all 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .stat-card-num {
+      font-size: 42px; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat-card-label { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+    .stat-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Architecture */
+    .studio-arch { padding: 100px 24px; }
+    .arch-layers { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .arch-layer {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 28px 32px; display: flex; gap: 24px; align-items: center; transition: all 0.3s;
+    }
+    .arch-layer:hover { border-color: rgba(99,102,241,0.3); }
+    .arch-layer-num {
+      width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; flex-shrink: 0;
+    }
+    .arch-layer-num.gui { background: rgba(6,182,212,0.15); color: var(--accent3); }
+    .arch-layer-num.bridge { background: rgba(139,92,246,0.15); color: var(--accent2); }
+    .arch-layer-num.engine { background: rgba(99,102,241,0.15); color: var(--accent); }
+    .arch-layer-num.native { background: rgba(34,197,94,0.12); color: var(--green); }
+    .arch-layer-content h4 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+    .arch-layer-content p { font-size: 13px; color: var(--text-muted); }
+
+    /* Feature showcase */
+    .feature-showcase { background: var(--bg-secondary); padding: 100px 24px; }
+    .showcase-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .showcase-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 28px; transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .showcase-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .showcase-card:hover { transform: translateY(-4px); }
+    .showcase-card:nth-child(1)::before { background: var(--accent); }
+    .showcase-card:nth-child(2)::before { background: var(--accent2); }
+    .showcase-card:nth-child(3)::before { background: var(--accent3); }
+    .showcase-card:nth-child(4)::before { background: var(--accent4); }
+    .showcase-card:nth-child(5)::before { background: var(--green); }
+    .showcase-card:nth-child(6)::before { background: var(--red); }
+    .showcase-card:nth-child(7)::before { background: var(--accent); }
+    .showcase-card:nth-child(8)::before { background: var(--accent2); }
+    .showcase-card:nth-child(9)::before { background: var(--accent3); }
+    .sc-icon { font-size: 28px; margin-bottom: 14px; }
+    .sc-card h4 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .sc-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* API Table */
+    .api-section { padding: 100px 24px; }
+    .api-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .api-group {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .api-group h4 { font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
+    .api-group .api-items { display: flex; flex-wrap: wrap; gap: 6px; }
+    .api-group .api-items span {
+      font-size: 11px; padding: 3px 10px; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .studio-hero-title { font-size: 34px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .arch-layer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">HFR<span class="accent">.</span></a>
+      <div class="nav-links">
+        <a href="ecs.html">ECS</a>
+        <a href="index.html#projects">项目</a>
+        <a href="studio.html" class="active">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="blog/">博客</a>
+        <a href="status.html">状态</a>
+        <a href="contact.html">联系我们</a>
+        <a href="index.html#about">关于</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="studio-hero">
+    <div class="studio-hero-bg"></div>
+    <div class="studio-hero-content">
+      <div class="studio-badge">
+        🎬 C++20 · WinUI 3 · libobs
+      </div>
+      <h1 class="studio-hero-title">
+        Huafeirong <span class="gradient-text">Studio</span>
+      </h1>
+      <p class="studio-hero-desc">
+        基于 OBS libobs 引擎的专业大屏导播软件。多场景管理、PVW/PGM 双预览、转场特效、
+        虚拟摄像头输出、美颜滤镜、专业音频混音 — 原生 C++ 性能，现代 WinUI 3 界面。
+      </p>
+      <div class="hero-actions" style="justify-content:center">
+        <a href="#architecture" class="btn-primary">技术架构</a>
+        <a href="index.html" class="btn-secondary">← 返回首页</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engine Stats -->
+  <section class="engine-stats">
+    <div class="section-header">
+      <span class="section-tag">引擎规格</span>
+      <h2>核心数据</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-num">103</div>
+        <div class="stat-card-label">C API 导出</div>
+        <div class="stat-card-sub">engine.dll</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num">94</div>
+        <div class="stat-card-label">P/Invoke 声明</div>
+        <div class="stat-card-sub">100% API 覆盖</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num">12</div>
+        <div class="stat-card-label">源类型</div>
+        <div class="stat-card-sub">全覆盖</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num">11</div>
+        <div class="stat-card-label">GUI 页面</div>
+        <div class="stat-card-sub">+ 6 自定义控件</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section class="studio-arch" id="architecture">
+    <div class="section-header">
+      <span class="section-tag">技术架构</span>
+      <h2>四层架构设计</h2>
+      <p>从底层引擎到上层 UI，清晰的分层与桥接</p>
+    </div>
+    <div class="arch-layers">
+      <div class="arch-layer">
+        <div class="arch-layer-num gui">1</div>
+        <div class="arch-layer-content">
+          <h4>WinUI 3 桌面界面</h4>
+          <p>C# 12 · .NET 8 · Windows App SDK · 11 页面 + 6 控件 · MVVM 模式</p>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-num bridge">2</div>
+        <div class="arch-layer-content">
+          <h4>C API 桥接层</h4>
+          <p>94 个 P/Invoke 声明 → engine.dll · EngineService 高层封装 · 类型安全编组</p>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-num engine">3</div>
+        <div class="arch-layer-content">
+          <h4>C++20 引擎核心</h4>
+          <p>libobs 集成 · 103 个 C API 导出 · 多线程管道 · 场景/源/滤镜/编码器管理</p>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-num native">4</div>
+        <div class="arch-layer-content">
+          <h4>OBS libobs 底层</h4>
+          <p>视频管道 · GPU 渲染 (D3D11) · 音频混音 · FFmpeg 编解码 · RTMP 推流</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Showcase -->
+  <section class="feature-showcase">
+    <div class="section-header">
+      <span class="section-tag">功能亮点</span>
+      <h2>专业导播功能全覆盖</h2>
+    </div>
+    <div class="showcase-grid">
+      <div class="showcase-card"><div class="sc-icon">📺</div><h4>PVW/PGM 双预览</h4><p>预监 + 节目双窗口，实时画面预览，独立 SwapChainPanel 渲染</p></div>
+      <div class="showcase-card"><div class="sc-icon">🎬</div><h4>转场特效系统</h4><p>Cut/Fade/Swipe/LumaWipe，方向可控（上下左右），颜色渐变可定制</p></div>
+      <div class="showcase-card"><div class="sc-icon">📡</div><h4>RTMP 推流 + 录制</h4><p>H.264 编码，自定义码率/关键帧间隔，MP4/MKV 录制格式，编码器预设</p></div>
+      <div class="showcase-card"><div class="sc-icon">📷</div><h4>虚拟摄像头</h4><p>PGM 输出注册为系统虚拟摄像头，支持 Zoom/Teams/微信等第三方应用</p></div>
+      <div class="showcase-card"><div class="sc-icon">✨</div><h4>美颜滤镜</h4><p>GPU 着色器驱动，实时人脸美颜/磨皮/美白，自定义 effect 文件</p></div>
+      <div class="showcase-card"><div class="sc-icon">🎛️</div><h4>专业音频混音</h4><p>8 种音频滤镜（压缩器/限幅器/噪声抑制/均衡器），实时 VU 表，独立通道控制</p></div>
+      <div class="showcase-card"><div class="sc-icon">🖥️</div><h4>12 种源类型</h4><p>显示器/窗口/游戏/摄像头/音频/图片/颜色/文字/浏览器/媒体文件/场景嵌套</p></div>
+      <div class="showcase-card"><div class="sc-icon">⌨️</div><h4>快捷键系统</h4><p>自定义键盘绑定，场景切换/推流开始停止/转场触发一键直达</p></div>
+      <div class="showcase-card"><div class="sc-icon">📊</div><h4>性能监控</h4><p>实时 FPS/CPU/GPU 使用率、编码器丢帧统计、内存占用面板</p></div>
+    </div>
+  </section>
+
+  <!-- API Reference -->
+  <section class="api-section">
+    <div class="section-header">
+      <span class="section-tag">API 参考</span>
+      <h2>103 引擎 API 分类</h2>
+    </div>
+    <div class="api-grid">
+      <div class="api-group">
+        <h4>🎬 场景管理 (10)</h4>
+        <div class="api-items"><span>scene_create</span><span>scene_switch</span><span>scene_rename</span><span>scene_remove</span><span>scene_list</span><span>scene_save</span><span>scene_load</span><span>scene_get_current</span><span>scene_count</span><span>scene_get_name</span></div>
+      </div>
+      <div class="api-group">
+        <h4>📦 源管理 (12)</h4>
+        <div class="api-items"><span>source_create</span><span>source_remove</span><span>source_get_name</span><span>source_get_type</span><span>source_set_visible</span><span>source_get_properties</span><span>source_set_properties</span><span>source_set_settings</span><span>source_get_settings</span><span>source_set_enabled</span><span>source_find</span><span>source_list</span></div>
+      </div>
+      <div class="api-group">
+        <h4>🔄 变换控制 (10)</h4>
+        <div class="api-items"><span>transform_set_pos</span><span>transform_set_scale</span><span>transform_set_rotation</span><span>transform_set_crop</span><span>transform_get_pos</span><span>transform_get_scale</span><span>transform_get_rotation</span><span>transform_get_crop</span><span>transform_reset</span><span>sceneitem_set_order</span></div>
+      </div>
+      <div class="api-group">
+        <h4>🎥 视频管道 (8)</h4>
+        <div class="api-items"><span>video_get_size</span><span>video_set_size</span><span>video_get_fps</span><span>video_set_fps</span><span>preview_start</span><span>preview_stop</span><span>preview_set_type</span><span>preview_set_hwnd</span></div>
+      </div>
+      <div class="api-group">
+        <h4>🎵 音频控制 (10)</h4>
+        <div class="api-items"><span>audio_set_mute</span><span>audio_get_mute</span><span>audio_set_volume</span><span>audio_get_volume</span><span>audio_set_monitor</span><span>audio_get_monitor</span><span>audio_get_vu_level</span><span>audio_filter_add</span><span>audio_filter_remove</span><span>audio_filter_list</span></div>
+      </div>
+      <div class="api-group">
+        <h4>📡 推流/录制 (12)</h4>
+        <div class="api-items"><span>stream_start</span><span>stream_stop</span><span>stream_active</span><span>stream_get_url</span><span>stream_set_url</span><span>record_start</span><span>record_stop</span><span>record_active</span><span>encoder_set_bitrate</span><span>encoder_set_preset</span><span>encoder_get_bitrate</span><span>encoder_get_preset</span></div>
+      </div>
+      <div class="api-group">
+        <h4>🎨 美颜滤镜 (8)</h4>
+        <div class="api-items"><span>beautify_load</span><span>beautify_unload</span><span>beautify_set_intensity</span><span>beautify_get_intensity</span><span>beautify_set_smooth</span><span>beautify_set_whiten</span><span>beautify_set_sharpen</span><span>beautify_is_active</span></div>
+      </div>
+      <div class="api-group">
+        <h4>⚙️ 系统/其他 (33)</h4>
+        <div class="api-items"><span>engine_init/shutdown</span><span>transition_*</span><span>virtualcam_*</span><span>hotkey_*</span><span>window_capture_*</span><span>source_factory_*</span><span>scene_collection_*</span><span>favorite_*</span><span>stats_*</span><span>engine_get_version</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Huafeirong Studio. <a href="privacy.html" style="color:var(--text-muted)">隐私政策</a> &middot; <a href="index.html" style="color:var(--accent)">← 返回首页</a></p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

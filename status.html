@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c63ff">
+  <meta name="description" content="项目状态仪表盘 — 花飞荣工作室。实时查看 Huafeirong Studio / ContestScoring / ECS / MyWeb 四大项目的构建状态、测试覆盖、版本信息。">
+  <title>项目状态 | 花飞荣工作室</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="项目状态仪表盘 | 花飞荣工作室">
+  <meta property="og:description" content="实时查看花飞荣工作室所有项目的构建状态、测试覆盖率和版本信息。">
+  <meta property="og:image" content="https://huafeirong.com/assets/og-image.svg">
+  <meta property="og:url" content="https://huafeirong.com/status.html">
+  <meta property="og:site_name" content="花飞荣工作室">
+  <link rel="canonical" href="https://huafeirong.com/status.html">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .status-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      min-height: calc(100vh - 70px);
+    }
+    .status-header {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    .status-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-primary, #fff);
+      margin-bottom: 0.5rem;
+    }
+    .status-header .subtitle {
+      color: var(--text-secondary, #a0a0b0);
+      font-size: 0.95rem;
+    }
+    .status-header .updated {
+      font-size: 0.8rem;
+      color: var(--text-secondary, #a0a0b0);
+      opacity: 0.6;
+      margin-top: 0.25rem;
+    }
+
+    /* Summary bar */
+    .summary-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .summary-card {
+      padding: 1rem 1.5rem;
+      background: var(--bg-card, #1a1a2e);
+      border: 1px solid var(--border-color, #2a2a3a);
+      border-radius: 12px;
+      text-align: center;
+      min-width: 120px;
+    }
+    .summary-card .num {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+    .summary-card .label {
+      font-size: 0.8rem;
+      color: var(--text-secondary, #a0a0b0);
+      margin-top: 0.25rem;
+    }
+    .num.pass { color: #4ade80; }
+    .num.warn { color: #fbbf24; }
+    .num.fail { color: #f87171; }
+
+    /* Project card */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--bg-card, #1a1a2e);
+      border: 1px solid var(--border-color, #2a2a3a);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .project-card:hover {
+      border-color: var(--accent, #6c63ff);
+      transform: translateY(-2px);
+    }
+    .pc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .pc-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary, #fff);
+    }
+    .pc-version {
+      font-size: 0.8rem;
+      color: var(--text-secondary, #a0a0b0);
+      background: rgba(108, 99, 255, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .pc-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary, #a0a0b0);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    /* Metrics */
+    .pc-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .metric {
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      text-align: center;
+    }
+    .metric .m-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .metric .m-label {
+      font-size: 0.72rem;
+      color: var(--text-secondary, #a0a0b0);
+      margin-top: 0.15rem;
+    }
+    .m-build-pass { color: #4ade80; }
+    .m-build-warn { color: #fbbf24; }
+    .m-build-fail { color: #f87171; }
+    .m-build-na   { color: var(--text-secondary, #a0a0b0); }
+
+    /* Tech tags */
+    .pc-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .tech-tag {
+      font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(108, 99, 255, 0.12);
+      color: #a5b4fc;
+      font-family: monospace;
+    }
+
+    /* Status bar */
+    .pc-status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color, #2a2a3a);
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .status-dot.green { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.5); }
+    .status-dot.yellow { background: #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+    .status-dot.red { background: #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.5); }
+    .status-dot.gray { background: #6b7280; }
+    .pc-link {
+      font-size: 0.85rem;
+      color: var(--accent, #6c63ff);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .pc-link:hover { text-decoration: underline; }
+
+    /* Light theme */
+    [data-theme="light"] .status-header h1 { color: #1a1a2e; }
+    [data-theme="light"] .project-card { background: #fff; border-color: #e8e8f0; }
+    [data-theme="light"] .metric { background: #f5f5fa; }
+    [data-theme="light"] .pc-name { color: #1a1a2e; }
+    [data-theme="light"] .pc-desc { color: #555; }
+    [data-theme="light"] .summary-card { background: #fff; border-color: #e8e8f0; }
+
+    @media (max-width: 600px) {
+      .status-page { padding: 1.5rem 1rem; }
+      .status-header h1 { font-size: 1.6rem; }
+      .project-grid { grid-template-columns: 1fr; }
+      .pc-metrics { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">HFR<span class="accent">.</span></a>
+      <div class="nav-links">
+        <a href="ecs.html">ECS</a>
+        <a href="studio.html">Huafeirong Studio</a>
+        <a href="portfolio.html">作品集</a>
+        <a href="blog/">博客</a>
+        <a href="status.html" class="active">状态</a>
+        <a href="contact.html">联系我们</a>
+        <a href="index.html#about">关于</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="菜单">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="status-page">
+    <div class="status-header">
+      <h1>📊 项目状态仪表盘</h1>
+      <p class="subtitle">四大项目实时构建、测试与版本追踪</p>
+      <p class="updated" id="lastUpdated">最后更新：2026-06-05 16:00 CST</p>
+    </div>
+
+    <div class="summary-bar">
+      <div class="summary-card">
+        <div class="num pass">3</div>
+        <div class="label">构建通过</div>
+      </div>
+      <div class="summary-card">
+        <div class="num warn">1</div>
+        <div class="label">沙箱受限</div>
+      </div>
+      <div class="summary-card">
+        <div class="num pass">51</div>
+        <div class="label">测试通过</div>
+      </div>
+      <div class="summary-card">
+        <div class="num pass">4</div>
+        <div class="label">活跃项目</div>
+      </div>
+    </div>
+
+    <div class="project-grid" id="projectGrid"></div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    const projects = [
+      {
+        name: "Huafeirong Studio Native",
+        version: "v0.9.0-beta",
+        desc: "基于 libobs 引擎的专业大屏导播 / 推流直播 / 录屏一体化软件。C++20 + WinUI 3 原生架构，39 源文件，真实 libobs 集成。",
+        tech: ["C++20", "C# 12", "WinUI 3", "libobs", "CMake", "P/Invoke"],
+        buildStatus: "pass",
+        buildLabel: "0 错误 2 警告",
+        testStatus: "na",
+        testLabel: "需 GPU 环境",
+        coverage: "—",
+        releaseStatus: "warn",
+        releaseLabel: "MSIX 脚本就绪",
+        link: "studio.html",
+        features: [
+          { label: "场景导播", done: true },
+          { label: "RTMP推流", done: true },
+          { label: "美颜滤镜", done: true },
+          { label: "虚拟摄像头", done: true },
+          { label: "音频混音", done: true },
+          { label: "转场特效", done: true },
+        ]
+      },
+      {
+        name: "ContestScoring",
+        version: "v0.8.0-alpha",
+        desc: "面向演讲/歌唱比赛的智能评分管理平台。Desktop WinUI 3 + Mobile .NET MAUI，SignalR 实时通信，TLS 加密，多桌面协同。",
+        tech: ["C# 12", "WinUI 3", ".NET MAUI", "SignalR", "SQLite", "ECDSA P-256"],
+        buildStatus: "pass",
+        buildLabel: "Desktop 0 错误",
+        testStatus: "pass",
+        testLabel: "51/51 通过",
+        coverage: "模型+引擎+安全+协议",
+        releaseStatus: "warn",
+        releaseLabel: "Mobile 需 MAUI SDK",
+        link: null,
+        features: [
+          { label: "智能评分", done: true },
+          { label: "LAN 无线评分", done: true },
+          { label: "TLS 加密通信", done: true },
+          { label: "多桌面协同", done: true },
+          { label: "舞台大屏", done: true },
+          { label: "数据导出", done: true },
+          { label: "现场投票", done: true },
+          { label: "Mobile 端", done: false },
+        ]
+      },
+      {
+        name: "ECS 多端赛事系统",
+        version: "v2.1.0",
+        desc: "六端协同开源赛事管理平台。Server (Node.js) + Windows 计分/导播 (WPF) + Android (Kotlin) + HarmonyOS (ArkTS) + Web (React)。",
+        tech: ["TypeScript", "C# WPF", "Kotlin", "ArkTS", "React", "Socket.IO", "Prisma"],
+        buildStatus: "pass",
+        buildLabel: "6 端 0 错误",
+        testStatus: "na",
+        testLabel: "功能测试待补",
+        coverage: "—",
+        releaseStatus: "pass",
+        releaseLabel: "生产可用",
+        link: "ecs.html",
+        features: [
+          { label: "多端实时同步", done: true },
+          { label: "犯规数据API", done: true },
+          { label: "打印计分单", done: false },
+          { label: "音频电平监测", done: false },
+          { label: "NDI/采集卡", done: false },
+          { label: "Web 分析面板", done: true },
+        ]
+      },
+      {
+        name: "MyWeb 个人网站",
+        version: "v1.2.0",
+        desc: "花飞荣工作室官方网站。暗色现代风格，8 页面完整覆盖（首页/ECS/Studio/作品集/博客×4/搜索/404），PWA 离线支持，SEO 全覆盖。",
+        tech: ["HTML5", "CSS3", "JavaScript", "PWA", "Service Worker", "Schema.org"],
+        buildStatus: "pass",
+        buildLabel: "即刻部署",
+        testStatus: "pass",
+        testLabel: "全站预览通过",
+        coverage: "8 页 × 暗亮双主题",
+        releaseStatus: "pass",
+        releaseLabel: "待部署 huafeirong.com",
+        link: null,
+        features: [
+          { label: "暗色/亮色主题", done: true },
+          { label: "PWA 离线", done: true },
+          { label: "SEO (OG+Schema)", done: true },
+          { label: "博客 (3篇)", done: true },
+          { label: "站内搜索", done: true },
+          { label: "404 页", done: true },
+          { label: "项目仪表盘", done: true },
+          { label: "联系表单", done: false },
+        ]
+      }
+    ];
+
+    function renderStatusBadge(status) {
+      const map = {
+        pass: '<span class="status-dot green"></span>',
+        warn: '<span class="status-dot yellow"></span>',
+        fail: '<span class="status-dot red"></span>',
+        na:   '<span class="status-dot gray"></span>',
+      };
+      return map[status] || map.na;
+    }
+
+    function renderProjects() {
+      const grid = document.getElementById('projectGrid');
+      grid.innerHTML = projects.map(p => {
+        const featuresHtml = p.features.map(f =>
+          `<span style="display:inline-flex;align-items:center;gap:0.2rem;font-size:0.75rem;color:var(--text-secondary);">
+            <span style="color:${f.done ? '#4ade80' : '#6b7280'};">${f.done ? '✓' : '○'}</span>${f.label}
+          </span>`
+        ).join(' ');
+
+        return `
+          <div class="project-card">
+            <div class="pc-header">
+              <div class="pc-name">${p.name}</div>
+              <div class="pc-version">${p.version}</div>
+            </div>
+            <p class="pc-desc">${p.desc}</p>
+
+            <div class="pc-metrics">
+              <div class="metric">
+                <div class="m-value m-build-${p.buildStatus}">${renderStatusBadge(p.buildStatus)} ${p.buildStatus === 'pass' ? '✓' : ''}</div>
+                <div class="m-label">构建：${p.buildLabel}</div>
+              </div>
+              <div class="metric">
+                <div class="m-value m-build-${p.testStatus}">${renderStatusBadge(p.testStatus)} ${p.testStatus === 'pass' ? p.testLabel : ''}</div>
+                <div class="m-label">测试：${p.coverage}</div>
+              </div>
+              <div class="metric">
+                <div class="m-value m-build-${p.releaseStatus}">${renderStatusBadge(p.releaseStatus)}</div>
+                <div class="m-label">发布：${p.releaseLabel}</div>
+              </div>
+            </div>
+
+            <div class="pc-tech">
+              ${p.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+            </div>
+
+            <div style="font-size:0.75rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:0.5rem 1rem;">
+              ${featuresHtml}
+            </div>
+
+            <div class="pc-status-bar">
+              <span class="status-badge">
+                ${renderStatusBadge(p.buildStatus)}
+                构建${p.buildStatus === 'pass' ? '通过' : p.buildStatus === 'warn' ? '警告' : '失败'}
+              </span>
+              ${p.link ? `<a href="${p.link}" class="pc-link">查看详情 →</a>` : `<a href="portfolio.html" class="pc-link">作品集 →</a>`}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Update timestamp
+    document.getElementById('lastUpdated').textContent =
+      `最后更新：${new Date().toISOString().replace('T',' ').slice(0,16)} CST`;
+
+    renderProjects();
+  </script>
+</body>
+</html>
