@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
   <id>https://huafeirong.com/blog/</id>
-  <title>花飞荣工作室 — 技术博客</title>
+  <title>华飞容工作室 — 技术博客</title>
   <subtitle>C++/WinUI 3 架构、.NET MAUI 跨平台、评分算法、导播软件开发的深度技术文章</subtitle>
   <updated>2026-06-05T00:00:00+08:00</updated>
   <link rel="alternate" type="text/html" href="https://huafeirong.com/blog/"/>
   <link rel="self" type="application/atom+xml" href="https://huafeirong.com/atom.xml"/>
   <author>
-    <name>花飞荣工作室</name>
+    <name>华飞容工作室</name>
     <email>contact@huafeirong.com</email>
     <uri>https://huafeirong.com</uri>
   </author>
@@ -21,7 +21,7 @@
     <updated>2026-06-05T00:00:00+08:00</updated>
     <published>2026-06-05T00:00:00+08:00</published>
     <link rel="alternate" type="text/html" href="https://huafeirong.com/blog/huafeirong-native-architecture.html"/>
-    <author><name>花飞荣工作室</name></author>
+    <author><name>华飞容工作室</name></author>
     <summary>深入剖析 Huafeirong Studio 从 Electron 迁移到 Native 架构的全过程：C++20 libobs 引擎集成、C API 桥接层设计、P/Invoke 94 个 API 声明的工程实践。</summary>
     <content type="html"><![CDATA[
       <p>从 Electron 到 Native，Huafeirong Studio 经历了一次彻底的架构重构。这篇文章详细记录了 C++20 libobs 引擎集成、C API 桥接层设计、以及 94 个 P/Invoke 声明的工程实践。</p>
@@ -39,7 +39,7 @@
     <updated>2026-06-03T00:00:00+08:00</updated>
     <published>2026-06-03T00:00:00+08:00</published>
     <link rel="alternate" type="text/html" href="https://huafeirong.com/blog/scoring-algorithm.html"/>
-    <author><name>花飞荣工作室</name></author>
+    <author><name>华飞容工作室</name></author>
     <summary>赛事评分系统的核心算法设计：去高低分机制、多维度加权平均、实时排名计算与舞台展示的完整工程实现方案。</summary>
     <content type="html"><![CDATA[
       <p>赛事评分看似简单，实则涉及去高低分机制、多维度加权平均、实时排名计算等复杂逻辑。本文分享 ContestScoring 项目的完整算法实现。</p>
@@ -57,7 +57,7 @@
     <updated>2026-06-01T00:00:00+08:00</updated>
     <published>2026-06-01T00:00:00+08:00</published>
     <link rel="alternate" type="text/html" href="https://huafeirong.com/blog/dotnet-maui-cross-platform.html"/>
-    <author><name>花飞荣工作室</name></author>
+    <author><name>华飞容工作室</name></author>
     <summary>使用 .NET MAUI 一套代码覆盖 Windows/Android/iOS/macOS 四个平台的实战经验，包括平台适配、LAN 通信、数据同步等关键技术点。</summary>
     <content type="html"><![CDATA[
       <p>.NET MAUI 让一套代码覆盖四大平台成为可能。本文分享在 ContestScoring 移动端开发中的实战经验：平台适配策略、LAN 实时通信、数据同步方案。</p>

@@ -1,4 +1,4 @@
-# MyWeb — 花飞荣工作室官网
+﻿# MyWeb — 华飞容工作室官网
 
 <p align="center">
   <strong style="font-size: 24px;">HFR<span style="color: #6c63ff;">.</span></strong>
@@ -14,7 +14,7 @@
 
 ## 项目简介
 
-花飞荣工作室官方网站，采用纯静态 HTML/CSS/JS 构建，零依赖、高性能、即开即用。
+华飞容工作室官方网站，采用纯静态 HTML/CSS/JS 构建，零依赖、高性能、即开即用。
 
 支持 **PWA 离线访问**、**暗色/亮色主题切换**、**完整 SEO 优化**（Open Graph、Twitter Card、schema.org、sitemap.xml、robots.txt）。
 
@@ -189,7 +189,7 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 ## 许可证
 
-© 2024-2026 花飞荣工作室. 保留所有权利。
+© 2024-2026 华飞容工作室. 保留所有权利。
 
 ---
 
