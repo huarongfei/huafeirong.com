@@ -196,5 +196,5 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 ## 联系方式
 
 - 邮箱：contact@huafeirong.com
-- GitHub：https://github.com/huafeirong
+- GitHub：https://github.com/huarongfei
 - 网站：https://huafeirong.com
