@@ -1,7 +1,7 @@
 ﻿{
   "name": "华飞容工作室 | Huafeirong Studio",
   "short_name": "华飞容",
-  "description": "专业赛事数字化解决方案 — 赛事评分系统 & 导播推流工具",
+  "description": "赛事数字化解决方案（业余开发）— 赛事评分系统 & 导播推流工具",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",

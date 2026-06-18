@@ -64,7 +64,7 @@ self.addEventListener('fetch', (event) => {
   const isHTML = request.headers.get('Accept')?.includes('text/html') ||
                  url.pathname.endsWith('.html') ||
                  url.pathname.endsWith('/');
-  const isStatic = /\.(css|js|svg|png|jpg|woff2?)$/.test(url.pathname);
+  const isStatic = /\.(css|js|svg|png|jpe?g|gif|webp|avif|ico|woff2?|json|xml|txt|md)$/.test(url.pathname);
 
   if (isHTML) {
     // Network-first for HTML (fresh content)

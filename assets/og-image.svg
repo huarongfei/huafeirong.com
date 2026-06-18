@@ -23,7 +23,7 @@
   <rect width="1200" height="630" fill="url(#glow2)"/>
   <text x="600" y="210" text-anchor="middle" font-family="Inter,Noto Sans SC,sans-serif" font-size="72" font-weight="800" fill="url(#text)" letter-spacing="-2">Huafeirong Studio</text>
   <text x="600" y="280" text-anchor="middle" font-family="Noto Sans SC,Inter,sans-serif" font-size="52" font-weight="700" fill="#e8e8ed" letter-spacing="-1">华飞容工作室</text>
-  <text x="600" y="380" text-anchor="middle" font-family="Noto Sans SC,Inter,sans-serif" font-size="24" fill="#9898b0">专业赛事评分系统  ·  导播推流工具  ·  跨平台数字化解决方案</text>
+  <text x="600" y="380" text-anchor="middle" font-family="Noto Sans SC,Inter,sans-serif" font-size="24" fill="#9898b0">赛事评分系统（业余开发） · 导播推流工具 · 跨平台数字化解决方案</text>
   <line x1="300" y1="430" x2="900" y2="430" stroke="#252536" stroke-width="1"/>
   <text x="600" y="500" text-anchor="middle" font-family="Inter,Noto Sans SC,sans-serif" font-size="20" fill="#686880">ECS 多端评分  ·  Huafeirong Studio Native  ·  .NET + C++ 技术栈</text>
 </svg>
